@@ -1,0 +1,177 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================================================================
+   REESH DS v1.0 — base
+   ========================================================================= */
+:root {
+  --reesh-blue: #009fd0;
+  --ink: #0b1622;
+  --ink-soft: #16242f;
+  --slate: #4b5a68;
+  --gray: #8b98a5;
+  --mist: #f2f8fb;
+  --line: #e3eaf0;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  /* subtle SVG grain, encoded as data-uri */
+  --grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #ffffff;
+  color: var(--slate);
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+
+::selection {
+  background: rgba(0, 159, 208, 0.22);
+  color: var(--ink);
+}
+
+/* Focus visibility — accessibility */
+:focus-visible {
+  outline: 2px solid var(--reesh-blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  left: 50%;
+  top: -60px;
+  transform: translateX(-50%);
+  z-index: 100;
+  background: var(--ink);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 0 0 12px 12px;
+  transition: top 200ms var(--ease);
+}
+.skip-link:focus {
+  top: 0;
+}
+
+/* =========================================================================
+   Component utilities
+   ========================================================================= */
+@layer components {
+  .container-reesh {
+    @apply mx-auto w-full max-w-[1200px] px-5 sm:px-8;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-eyebrow uppercase text-reesh-blue;
+  }
+
+  .card-base {
+    @apply rounded-card bg-white shadow-card ring-1 ring-line/70;
+  }
+}
+
+/* =========================================================================
+   Background treatments (Section D)
+   ========================================================================= */
+.bg-grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--grain);
+  background-size: 180px 180px;
+  opacity: 0.04;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.bg-dot-grid {
+  background-image: radial-gradient(rgba(75, 90, 104, 0.16) 1px, transparent 1px);
+  background-size: 22px 22px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 40%, transparent 100%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 40%, transparent 100%);
+}
+
+.bg-line-grid {
+  background-image: linear-gradient(rgba(227, 234, 240, 0.9) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(227, 234, 240, 0.9) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(ellipse 65% 60% at 50% 45%, #000 35%, transparent 100%);
+  mask-image: radial-gradient(ellipse 65% 60% at 50% 45%, #000 35%, transparent 100%);
+}
+
+.glow-orb {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(80px);
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* Text gradient */
+.text-gradient-brand {
+  background: linear-gradient(135deg, #66cfec 0%, #009fd0 45%, #006a8b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Button sheen sweep */
+.sheen {
+  position: relative;
+  overflow: hidden;
+}
+.sheen::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 40%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.35),
+    transparent
+  );
+  transform: translateX(-160%) skewX(-20deg);
+  transition: transform 0.7s var(--ease);
+}
+.sheen:hover::before {
+  transform: translateX(260%) skewX(-20deg);
+}
+
+/* Checkmark draw-in (sub-brand signature) */
+.check-draw path {
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+  transition: stroke-dashoffset 0.6s var(--ease);
+}
+.check-draw[data-drawn='true'] path {
+  stroke-dashoffset: 0;
+}
+
+/* =========================================================================
+   Reduced motion — disable all
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
