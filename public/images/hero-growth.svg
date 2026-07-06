@@ -1,0 +1,48 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Upward growth arrow on a deep blue field" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="field" x1="0" y1="0" x2="1920" y2="1080" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#071A30"/>
+      <stop offset="0.5" stop-color="#0A2C50"/>
+      <stop offset="1" stop-color="#0C3A63"/>
+    </linearGradient>
+    <radialGradient id="tipGlow" cx="0" cy="0" r="1" gradientTransform="translate(1430 300) rotate(90) scale(430)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7FE3FF" stop-opacity="0.9"/>
+      <stop offset="0.3" stop-color="#12A9E0" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#0A2C50" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="arrowStroke" x1="300" y1="900" x2="1450" y2="300" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1E7FB8" stop-opacity="0.35"/>
+      <stop offset="0.55" stop-color="#12A9E0"/>
+      <stop offset="1" stop-color="#9EE9FF"/>
+    </linearGradient>
+    <filter id="soft" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="10"/>
+    </filter>
+    <filter id="bigGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="34"/>
+    </filter>
+  </defs>
+
+  <!-- Field -->
+  <rect width="1920" height="1080" fill="url(#field)"/>
+
+  <!-- Faint grid, right-weighted -->
+  <g stroke="#4FA8DA" stroke-opacity="0.08" stroke-width="1">
+    <path d="M760 0V1080M880 0V1080M1000 0V1080M1120 0V1080M1240 0V1080M1360 0V1080M1480 0V1080M1600 0V1080M1720 0V1080M1840 0V1080"/>
+    <path d="M0 120H1920M0 240H1920M0 360H1920M0 480H1920M0 600H1920M0 720H1920M0 840H1920M0 960H1920"/>
+  </g>
+
+  <!-- Tip glow -->
+  <rect width="1920" height="1080" fill="url(#tipGlow)"/>
+
+  <!-- Under-curve soft glow -->
+  <path d="M180 940 C520 900 640 720 820 700 C1010 680 1120 760 1430 320" stroke="#12A9E0" stroke-opacity="0.5" stroke-width="26" stroke-linecap="round" fill="none" filter="url(#bigGlow)"/>
+
+  <!-- Main arrow curve -->
+  <path d="M180 940 C520 900 640 720 820 700 C1010 680 1120 760 1430 320" stroke="url(#arrowStroke)" stroke-width="14" stroke-linecap="round" fill="none"/>
+  <!-- Arrowhead -->
+  <path d="M1330 356 L1445 300 L1398 418" stroke="#BFF0FF" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- Bright tip -->
+  <circle cx="1445" cy="300" r="16" fill="#EAFBFF" filter="url(#soft)"/>
+  <circle cx="1445" cy="300" r="7" fill="#FFFFFF"/>
+</svg>

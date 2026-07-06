@@ -9,7 +9,7 @@ import { nav, subBrands } from '@/lib/content';
 import Button from '@/components/ui/Button';
 import { EASE } from '@/lib/motion';
 
-// Routes that render on a light hero (dark text/logo). Every current route has a
+// Routes rendered on a light hero (dark text/logo). All current routes have a
 // dark hero, so the header is transparent-over-dark by default everywhere.
 const LIGHT_HERO_ROUTES = new Set([]);
 
@@ -23,8 +23,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileServices, setMobileServices] = useState(false);
-  const [megaOpen, setMegaOpen] = useState(false);
-  const [activeBrand, setActiveBrand] = useState(0);
+  const [dropOpen, setDropOpen] = useState(false);
   const pathname = usePathname();
   const closeTimer = useRef(null);
   const servicesBtn = useRef(null);
@@ -50,11 +49,11 @@ export default function Navbar() {
     };
   }, []);
 
-  // Close everything on route change
+  // Close menus on route change
   useEffect(() => {
     setMobileOpen(false);
     setMobileServices(false);
-    setMegaOpen(false);
+    setDropOpen(false);
   }, [pathname]);
 
   // Lock body scroll while mobile menu open
@@ -65,39 +64,37 @@ export default function Navbar() {
     };
   }, [mobileOpen]);
 
-  // Mega menu open/close with grace delay
-  const openMega = useCallback(() => {
+  // Dropdown open/close with grace delay (prevents flicker)
+  const openDrop = useCallback(() => {
     clearTimeout(closeTimer.current);
-    setMegaOpen(true);
+    setDropOpen(true);
   }, []);
   const scheduleClose = useCallback(() => {
     clearTimeout(closeTimer.current);
-    closeTimer.current = setTimeout(() => setMegaOpen(false), 150);
+    closeTimer.current = setTimeout(() => setDropOpen(false), 150);
   }, []);
 
-  // Keyboard within mega menu
-  const onMegaKeyDown = (e) => {
+  const onDropKeyDown = (e) => {
     if (e.key === 'Escape') {
-      setMegaOpen(false);
+      setDropOpen(false);
       servicesBtn.current?.focus();
       return;
     }
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
       e.preventDefault();
-      const focusables = rowRefs.current.filter(Boolean);
-      const idx = focusables.indexOf(document.activeElement);
+      const items = rowRefs.current.filter(Boolean);
+      const idx = items.indexOf(document.activeElement);
       let next = e.key === 'ArrowDown' ? idx + 1 : idx - 1;
-      if (next < 0) next = focusables.length - 1;
-      if (next >= focusables.length) next = 0;
-      focusables[next]?.focus();
-      setActiveBrand(next);
+      if (next < 0) next = items.length - 1;
+      if (next >= items.length) next = 0;
+      items[next]?.focus();
     }
   };
 
   const isActive = (href) => (href === '/' ? pathname === '/' : pathname.startsWith(href));
 
   // Header visual state
-  const solid = scrolled || megaOpen;
+  const solid = scrolled || dropOpen;
   const headerText = lightPage && !solid ? 'text-ink' : 'text-white';
   const logoSrc = lightPage && !solid ? '/brand/logo-full.svg' : '/brand/logo-full-white.svg';
 
@@ -132,28 +129,72 @@ export default function Navbar() {
               const active = isActive(item.href);
               if (item.href === '/services') {
                 return (
-                  <li key={item.href} className="relative" onMouseEnter={openMega} onMouseLeave={scheduleClose}>
+                  <li key={item.href} className="relative" onMouseEnter={openDrop} onMouseLeave={scheduleClose}>
                     <Link
                       href={item.href}
                       ref={servicesBtn}
-                      aria-haspopup="true"
-                      aria-expanded={megaOpen}
-                      onFocus={openMega}
-                      className={`group flex items-center gap-1.5 rounded-btn px-3.5 py-2 text-sm font-medium transition-colors duration-200 ${headerText} ${
-                        active || megaOpen ? 'opacity-100' : 'opacity-90 hover:opacity-100'
+                      aria-haspopup="menu"
+                      aria-expanded={dropOpen}
+                      onFocus={openDrop}
+                      className={`group relative flex items-center gap-1.5 rounded-btn px-3.5 py-2 text-sm font-medium transition-opacity duration-200 ${headerText} ${
+                        active || dropOpen ? 'opacity-100' : 'opacity-90 hover:opacity-100'
                       }`}
                     >
                       {item.label}
                       <svg
-                        className={`h-3.5 w-3.5 transition-transform duration-300 ease-reesh ${megaOpen ? 'rotate-180' : ''}`}
+                        className={`h-3.5 w-3.5 transition-transform duration-300 ease-reesh ${dropOpen ? 'rotate-180' : ''}`}
                         viewBox="0 0 16 16"
                         fill="none"
                         aria-hidden
                       >
                         <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
-                      <ActiveUnderline show={active || megaOpen} />
+                      <ActiveUnderline show={active || dropOpen} />
                     </Link>
+
+                    {/* SIMPLE dropdown (~300px) */}
+                    <AnimatePresence>
+                      {dropOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -8 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -8 }}
+                          transition={{ duration: 0.2, ease: EASE }}
+                          onKeyDown={onDropKeyDown}
+                          className="absolute left-0 top-full w-[300px] pt-3"
+                        >
+                          <div className="overflow-hidden rounded-2xl border-t-2 border-t-reesh-blue bg-[rgba(22,36,47,0.96)] p-2 shadow-[0_24px_48px_rgba(0,0,0,0.4)] ring-1 ring-white/10 backdrop-blur-xl">
+                            <ul role="menu" aria-label="Services">
+                              {subBrands.map((b, i) => (
+                                <li key={b.slug} role="none">
+                                  <Link
+                                    href={`/services/${b.slug}`}
+                                    role="menuitem"
+                                    ref={(el) => (rowRefs.current[i] = el)}
+                                    className="group flex items-center gap-3 rounded-xl p-2.5 transition-colors duration-200 hover:bg-reesh-blue/10"
+                                  >
+                                    <span className="flex h-9 w-9 flex-none items-center justify-center rounded-lg bg-reesh-blue/15 font-display text-xs font-bold text-reesh-blue transition-colors duration-200 group-hover:bg-gradient-brand group-hover:text-white">
+                                      {b.name.replace('Reesh ', '').charAt(0)}
+                                    </span>
+                                    <span className="min-w-0">
+                                      <span className="block text-sm font-semibold text-white">{b.name}</span>
+                                      <span className="block truncate text-xs text-gray">{b.tag}</span>
+                                    </span>
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                            <Link
+                              href="/services"
+                              className="group mt-1 flex items-center justify-between rounded-xl border-t border-white/10 px-2.5 py-3 text-sm font-semibold text-reesh-blue"
+                            >
+                              View all services
+                              <Arrow className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
+                            </Link>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </li>
                 );
               }
@@ -161,7 +202,7 @@ export default function Navbar() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className={`group relative rounded-btn px-3.5 py-2 text-sm font-medium transition-colors duration-200 ${headerText} ${
+                    className={`group relative rounded-btn px-3.5 py-2 text-sm font-medium transition-opacity duration-200 ${headerText} ${
                       active ? 'opacity-100' : 'opacity-90 hover:opacity-100'
                     }`}
                   >
@@ -182,9 +223,9 @@ export default function Navbar() {
           {/* Mobile toggle */}
           <button
             onClick={() => setMobileOpen((v) => !v)}
-            className={`relative z-10 flex h-10 w-10 items-center justify-center rounded-btn ring-1 lg:hidden ${
-              headerText
-            } ${lightPage && !solid ? 'ring-line' : 'ring-white/25'}`}
+            className={`relative z-10 flex h-10 w-10 items-center justify-center rounded-btn ring-1 lg:hidden ${headerText} ${
+              lightPage && !solid ? 'ring-line' : 'ring-white/25'
+            }`}
             aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileOpen}
           >
@@ -195,108 +236,7 @@ export default function Navbar() {
             </div>
           </button>
         </nav>
-
-        {/* MEGA MENU (desktop) */}
-        <AnimatePresence>
-          {megaOpen && (
-            <motion.div
-              key="mega"
-              initial={{ opacity: 0, y: -12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.3, ease: EASE }}
-              onMouseEnter={openMega}
-              onMouseLeave={scheduleClose}
-              onKeyDown={onMegaKeyDown}
-              className="absolute inset-x-0 top-full hidden px-5 pt-3 sm:px-8 lg:block"
-            >
-              <div className="mx-auto max-w-[1240px]">
-                <div className="relative overflow-hidden rounded-[20px] border-t-2 border-t-reesh-blue bg-ink-soft bg-grain shadow-[0_24px_64px_rgba(0,0,0,0.4)] ring-1 ring-white/10">
-                  <div className="grid grid-cols-1 gap-6 p-6 lg:grid-cols-[55%_45%]">
-                    {/* Left — sub-brand rows */}
-                    <ul className="flex flex-col gap-1" role="menu" aria-label="Services">
-                      {subBrands.map((b, i) => (
-                        <motion.li
-                          key={b.slug}
-                          initial={{ opacity: 0, x: -8 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.04 * i + 0.05, ease: EASE }}
-                        >
-                          <Link
-                            href={`/services/${b.slug}`}
-                            role="menuitem"
-                            ref={(el) => (rowRefs.current[i] = el)}
-                            onMouseEnter={() => setActiveBrand(i)}
-                            onFocus={() => setActiveBrand(i)}
-                            className={`group flex items-center gap-4 rounded-xl p-3 transition-colors duration-200 ${
-                              activeBrand === i ? 'bg-reesh-blue/[.08]' : 'hover:bg-reesh-blue/[.06]'
-                            }`}
-                          >
-                            <span
-                              className={`flex h-11 w-11 flex-none items-center justify-center rounded-xl transition-colors duration-200 ${
-                                activeBrand === i ? 'bg-gradient-brand text-white' : 'bg-blue-50 text-reesh-blue group-hover:bg-gradient-brand group-hover:text-white'
-                              }`}
-                            >
-                              <span className="font-display text-sm font-bold">{b.name.replace('Reesh ', '').charAt(0)}</span>
-                            </span>
-                            <span className="min-w-0 flex-1">
-                              <span className="block font-display text-[15px] font-semibold text-white">{b.name}</span>
-                              <span className="block text-[13px] text-gray">{b.tag}</span>
-                            </span>
-                            <Arrow className="h-4 w-4 flex-none text-reesh-blue opacity-0 transition-all duration-200 group-hover:translate-x-1 group-hover:opacity-100" />
-                          </Link>
-                        </motion.li>
-                      ))}
-                    </ul>
-
-                    {/* Right — swapping premium image */}
-                    <Link
-                      href="/services"
-                      className="group relative hidden overflow-hidden rounded-2xl lg:block"
-                      aria-label="Explore all services"
-                    >
-                      {subBrands.map((b, i) => (
-                        <Image
-                          key={b.slug}
-                          src={b.image}
-                          alt=""
-                          fill
-                          sizes="40vw"
-                          className={`object-cover transition-opacity duration-200 ${activeBrand === i ? 'opacity-100' : 'opacity-0'}`}
-                        />
-                      ))}
-                      <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(11,22,34,.15) 30%, rgba(11,22,34,.9) 100%)' }} />
-                      <div className="absolute inset-x-0 bottom-0 p-5">
-                        <span className="text-eyebrow uppercase text-blue-300">{subBrands[activeBrand].name}</span>
-                        <span className="mt-1.5 flex items-center gap-1.5 font-display text-lg font-semibold text-white">
-                          Explore all services
-                          <Arrow className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
-                        </span>
-                      </div>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </motion.div>
-
-      {/* Page-dim backdrop while mega open */}
-      <AnimatePresence>
-        {megaOpen && (
-          <motion.div
-            key="dim"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: EASE }}
-            onMouseEnter={scheduleClose}
-            className="fixed inset-0 -z-[1] hidden bg-ink/20 lg:block"
-            aria-hidden
-          />
-        )}
-      </AnimatePresence>
 
       {/* MOBILE full-screen menu */}
       <AnimatePresence>
@@ -336,7 +276,7 @@ export default function Navbar() {
                             >
                               {subBrands.map((b) => (
                                 <li key={b.slug}>
-                                  <Link href={`/services/${b.slug}`} className="flex items-center gap-3 py-3 pl-1 text-white/75">
+                                  <Link href={`/services/${b.slug}`} className="flex items-center gap-3 py-3 pl-1">
                                     <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-reesh-blue/15 font-display text-xs font-bold text-reesh-blue">
                                       {b.name.replace('Reesh ', '').charAt(0)}
                                     </span>
@@ -349,7 +289,7 @@ export default function Navbar() {
                               ))}
                               <li>
                                 <Link href="/services" className="block py-3 pl-1 text-sm font-semibold text-reesh-blue">
-                                  Explore all services →
+                                  View all services →
                                 </Link>
                               </li>
                             </motion.ul>
