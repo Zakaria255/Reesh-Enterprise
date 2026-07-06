@@ -3,6 +3,7 @@ import { Sora, Inter } from 'next/font/google';
 import { site } from '@/lib/content';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import Providers from '@/components/Providers';
 
 const sora = Sora({
   subsets: ['latin'],
@@ -91,9 +92,11 @@ export default function RootLayout({ children }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <Navbar />
-        <main id="main">{children}</main>
-        <Footer />
+        <Providers>
+          <Navbar />
+          <main id="main">{children}</main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
