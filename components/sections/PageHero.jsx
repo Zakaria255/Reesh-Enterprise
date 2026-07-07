@@ -11,11 +11,12 @@ import { EASE } from '@/lib/motion';
  * PageHero — inner-page hero with ink background, glow, optional parallax image.
  * Reused on ~8 pages.
  */
-export default function PageHero({ eyebrow, title, intro, image, accent, children }) {
+export default function PageHero({ eyebrow, title, intro, image, accent, children, size = 'default' }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
   const y = useTransform(scrollYProgress, [0, 1], ['0%', '22%']);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
+  const compact = size === 'compact';
 
   return (
     <section ref={ref} className="relative overflow-hidden bg-ink text-white bg-grain">
@@ -44,7 +45,11 @@ export default function PageHero({ eyebrow, title, intro, image, accent, childre
         transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
       />
 
-      <Container className="relative z-[1] flex flex-col items-start gap-5 pb-16 pt-36 sm:pb-24 sm:pt-44">
+      <Container
+        className={`relative z-[1] flex flex-col items-start gap-5 ${
+          compact ? 'pb-14 pt-32 sm:min-h-[58vh] sm:justify-center sm:pb-16 sm:pt-40' : 'pb-16 pt-36 sm:pb-24 sm:pt-44'
+        }`}
+      >
         {eyebrow && (
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: EASE }}>
             <Eyebrow tone="light">{eyebrow}</Eyebrow>
@@ -54,7 +59,11 @@ export default function PageHero({ eyebrow, title, intro, image, accent, childre
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: EASE, delay: 0.08 }}
-          className="max-w-3xl font-display text-h1 text-white"
+          className={
+            compact
+              ? 'max-w-[26ch] font-display font-bold leading-[1.1] tracking-[-0.01em] text-white [font-size:clamp(32px,3.8vw,50px)]'
+              : 'max-w-3xl font-display text-h1 text-white'
+          }
         >
           {title}
         </motion.h1>
@@ -63,7 +72,7 @@ export default function PageHero({ eyebrow, title, intro, image, accent, childre
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: EASE, delay: 0.16 }}
-            className="max-w-2xl text-body-l text-white/75"
+            className={`text-body-l text-white/75 ${compact ? 'max-w-[52ch]' : 'max-w-2xl'}`}
           >
             {intro}
           </motion.p>

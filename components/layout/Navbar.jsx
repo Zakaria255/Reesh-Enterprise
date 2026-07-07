@@ -163,7 +163,7 @@ export default function Navbar() {
                           onKeyDown={onDropKeyDown}
                           className="absolute left-0 top-full w-[300px] pt-3"
                         >
-                          <div className="overflow-hidden rounded-2xl border-t-2 border-t-reesh-blue bg-[rgba(22,36,47,0.96)] p-2 shadow-[0_24px_48px_rgba(0,0,0,0.4)] ring-1 ring-white/10 backdrop-blur-xl">
+                          <div className="overflow-hidden rounded-2xl border border-[rgba(11,22,34,0.08)] border-t-2 border-t-reesh-blue bg-white p-2 shadow-[0_24px_48px_rgba(11,22,34,0.16)]">
                             <ul role="menu" aria-label="Services">
                               {subBrands.map((b, i) => (
                                 <li key={b.slug} role="none">
@@ -171,22 +171,19 @@ export default function Navbar() {
                                     href={`/services/${b.slug}`}
                                     role="menuitem"
                                     ref={(el) => (rowRefs.current[i] = el)}
-                                    className="group flex items-center gap-3 rounded-xl p-2.5 transition-colors duration-200 hover:bg-reesh-blue/10"
+                                    className="group block rounded-xl px-3 py-2.5 transition-colors duration-200 hover:bg-mist"
                                   >
-                                    <span className="flex h-9 w-9 flex-none items-center justify-center rounded-lg bg-reesh-blue/15 font-display text-xs font-bold text-reesh-blue transition-colors duration-200 group-hover:bg-gradient-brand group-hover:text-white">
-                                      {b.name.replace('Reesh ', '').charAt(0)}
+                                    <span className="block text-sm font-semibold text-ink transition-colors duration-200 group-hover:text-reesh-blue">
+                                      {b.name}
                                     </span>
-                                    <span className="min-w-0">
-                                      <span className="block text-sm font-semibold text-white">{b.name}</span>
-                                      <span className="block truncate text-xs text-gray">{b.tag}</span>
-                                    </span>
+                                    <span className="mt-0.5 block text-[13px] text-slate">{b.tag}</span>
                                   </Link>
                                 </li>
                               ))}
                             </ul>
                             <Link
                               href="/services"
-                              className="group mt-1 flex items-center justify-between rounded-xl border-t border-white/10 px-2.5 py-3 text-sm font-semibold text-reesh-blue"
+                              className="group mt-1 flex items-center justify-between rounded-xl border-t border-[rgba(11,22,34,0.08)] px-3 py-3 text-sm font-semibold text-reesh-blue"
                             >
                               View all services
                               <Arrow className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />

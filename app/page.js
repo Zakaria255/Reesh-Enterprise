@@ -4,7 +4,6 @@ import ReeshFive from '@/components/sections/ReeshFive';
 import StatStrip from '@/components/sections/StatStrip';
 import WhyReesh from '@/components/sections/WhyReesh';
 import ProcessStepper from '@/components/sections/ProcessStepper';
-import IndustryGrid from '@/components/sections/IndustryGrid';
 import PortfolioGrid from '@/components/sections/PortfolioGrid';
 import ServiceCard from '@/components/sections/ServiceCard';
 import CTABand from '@/components/sections/CTABand';
@@ -87,32 +86,6 @@ export default function HomePage() {
 
       {/* Process */}
       <ProcessStepper tone="white" />
-
-      {/* Industries — curated cards on a patterned bg */}
-      <Background variant="dot" className="py-section-mobile sm:py-section">
-        <Container>
-          <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
-            <SectionHeading
-              eyebrow="Industries"
-              title="Trusted across the sectors that move Somalia forward."
-              intro="Whatever your field, we speak your customers' language."
-            />
-            <Reveal>
-              <Button href="/industries" variant="secondary" size="md" arrow>
-                Explore industries
-              </Button>
-            </Reveal>
-          </div>
-          <div className="mt-12">
-            <IndustryGrid variant="cards" limit={8} />
-          </div>
-          <Reveal className="mt-12 flex justify-center">
-            <Button href="/contact" variant="dark" size="lg" arrow>
-              Talk to Our Team
-            </Button>
-          </Reveal>
-        </Container>
-      </Background>
 
       {/* Portfolio preview — hover reveal */}
       <section className="bg-mist py-section-mobile sm:py-section">

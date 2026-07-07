@@ -2,12 +2,13 @@ import Image from 'next/image';
 import PageHero from '@/components/sections/PageHero';
 import ValuesList from '@/components/sections/ValuesList';
 import ProcessStepper from '@/components/sections/ProcessStepper';
-import TeamGrid from '@/components/sections/TeamGrid';
 import StatStrip from '@/components/sections/StatStrip';
 import CTABand from '@/components/sections/CTABand';
 import Container from '@/components/ui/Container';
 import Eyebrow from '@/components/ui/Eyebrow';
+import SectionHeading from '@/components/ui/SectionHeading';
 import Reveal, { RevealItem } from '@/components/util/Reveal';
+import Background from '@/components/util/Background';
 import { site, images } from '@/lib/content';
 
 export const metadata = {
@@ -21,6 +22,7 @@ export default function AboutPage() {
   return (
     <>
       <PageHero
+        size="compact"
         eyebrow="About Reesh"
         title="We build brands businesses are proud to own."
         intro={site.signature}
@@ -69,40 +71,59 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      {/* Mission + Vision */}
-      <section className="bg-mist py-section-mobile sm:py-section">
-        <Container className="grid gap-6 lg:grid-cols-2">
-          <Reveal className="card-base flex flex-col p-8">
-            <Eyebrow>Our mission</Eyebrow>
-            <p className="mt-4 font-display text-h3 text-ink">
-              To help every business we work with look professional, get noticed, and grow — with creative work done
-              right, under one roof.
-            </p>
-          </Reveal>
-          <Reveal delay={0.08} className="card-base relative flex flex-col overflow-hidden bg-ink p-8 text-white">
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-0"
-              style={{ background: 'radial-gradient(60% 60% at 80% 0%, rgba(0,159,208,.25), transparent 60%)' }}
-            />
-            <div className="relative">
-              <Eyebrow tone="light">Our vision</Eyebrow>
-              <p className="mt-4 font-display text-h3 text-white">
-                To be the creative partner that raises the standard of branding in Somalia — proof that world-class work
-                is built right here.
-              </p>
-            </div>
+      {/* Mission & Vision — two balanced cards */}
+      <Background variant="dot" className="py-section-mobile sm:py-section">
+        <Container>
+          <SectionHeading
+            eyebrow="Our purpose"
+            title="Mission & Vision"
+            intro="What drives us, and where we're headed."
+          />
+          <Reveal stagger className="mt-12 grid gap-6 lg:grid-cols-2">
+            {[
+              {
+                label: 'Our Mission',
+                icon: (
+                  <path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0-5a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0-3.5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1Z" />
+                ),
+                text:
+                  'To help every business we work with look professional, get noticed, and grow — with creative work done right, under one roof.',
+              },
+              {
+                label: 'Our Vision',
+                icon: (
+                  <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Zm10 3a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                ),
+                text:
+                  'To be the creative partner that raises the standard of branding in Somalia — proof that world-class work is built right here.',
+              },
+            ].map((c) => (
+              <RevealItem
+                key={c.label}
+                className="group relative flex flex-col overflow-hidden rounded-card bg-white p-8 shadow-card ring-1 ring-line sm:p-10"
+              >
+                {/* Top brand rule */}
+                <span aria-hidden className="absolute inset-x-0 top-0 h-1 bg-gradient-brand" />
+                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-reesh-blue">
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6" aria-hidden>
+                    {c.icon}
+                  </svg>
+                </span>
+                <p className="mt-6 text-eyebrow uppercase text-reesh-blue">{c.label}</p>
+                <p className="mt-3 max-w-[46ch] font-display text-[clamp(20px,2.1vw,25px)] font-semibold leading-[1.4] text-ink">
+                  {c.text}
+                </p>
+              </RevealItem>
+            ))}
           </Reveal>
         </Container>
-      </section>
+      </Background>
 
       <StatStrip tone="ink" />
 
       <ValuesList />
 
       <ProcessStepper tone="white" />
-
-      <TeamGrid />
 
       <CTABand
         title="Want a partner who takes your brand seriously?"
