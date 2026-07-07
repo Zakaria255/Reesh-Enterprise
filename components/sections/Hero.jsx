@@ -37,30 +37,30 @@ export default function Hero() {
         />
       </motion.div>
 
-      {/* Text-legibility scrim — dark left, arrow glow shows through right */}
+      {/* Even legibility scrim — centered layout, arrow kept as subtle ambiance */}
       <div
         aria-hidden
         className="absolute inset-0"
         style={{
           background:
-            'linear-gradient(100deg, rgba(7,14,26,0.96) 0%, rgba(7,14,26,0.86) 34%, rgba(7,14,26,0.5) 60%, rgba(7,14,26,0.2) 82%, rgba(0,80,130,0.12) 100%)',
+            'linear-gradient(180deg, rgba(7,14,26,0.80) 0%, rgba(7,14,26,0.64) 45%, rgba(7,14,26,0.82) 100%)',
         }}
       />
-      {/* Top/bottom grounding scrim */}
+      {/* Center focus vignette — darkens behind the centered text block */}
       <div
         aria-hidden
         className="absolute inset-0"
         style={{
           background:
-            'linear-gradient(180deg, rgba(11,22,34,0.55) 0%, transparent 22%, transparent 70%, rgba(11,22,34,0.6) 100%)',
+            'radial-gradient(75% 65% at 50% 46%, rgba(7,14,26,0.34) 0%, rgba(7,14,26,0) 72%)',
         }}
       />
 
       {/* Content */}
       <Container className="relative z-[2] py-32">
-        <motion.div variants={container} initial="hidden" animate="show" className="max-w-[760px] lg:max-w-none">
+        <motion.div variants={container} initial="hidden" animate="show" className="mx-auto flex max-w-[860px] flex-col items-center text-center">
           {/* Eyebrow — no city name */}
-          <motion.div variants={rise} className="flex items-center gap-2.5">
+          <motion.div variants={rise} className="flex items-center justify-center gap-2.5">
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-300 opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-reesh-blue" />
@@ -72,7 +72,7 @@ export default function Hero() {
 
           {/* Headline — Sora 800, blue-gradient line 2. Two clean lines at lg
               (nowrap) sized so neither line orphans a word or crowds the arrow. */}
-          <h1 className="mt-6 max-w-[min(92vw,1040px)] font-display font-extrabold leading-[1.02] tracking-[-0.02em] text-white [font-size:clamp(40px,6vw,76px)]">
+          <h1 className="mx-auto mt-6 max-w-[min(92vw,1040px)] font-display font-extrabold leading-[1.02] tracking-[-0.02em] text-white [font-size:clamp(40px,6vw,76px)]">
             <motion.span variants={rise} className="block lg:whitespace-nowrap">
               From a simple idea
             </motion.span>
@@ -85,12 +85,12 @@ export default function Hero() {
           </h1>
 
           {/* Sub-line */}
-          <motion.p variants={rise} className="mt-6 max-w-[44ch] leading-relaxed text-white/[.74] [font-size:clamp(17px,1.5vw,20px)]">
+          <motion.p variants={rise} className="mx-auto mt-6 max-w-[44ch] leading-relaxed text-white/[.74] [font-size:clamp(17px,1.5vw,20px)]">
             Design, digital, media, web, and print — five specialties, one team.
           </motion.p>
 
           {/* CTAs */}
-          <motion.div variants={rise} className="mt-9 flex flex-col gap-3.5 sm:flex-row sm:items-center">
+          <motion.div variants={rise} className="mt-9 flex flex-col gap-3.5 sm:flex-row sm:items-center sm:justify-center">
             <Button href="/contact" variant="primary" size="lg" arrow>
               Request a Quote
             </Button>
@@ -106,7 +106,7 @@ export default function Hero() {
           </motion.div>
 
           {/* Sub-brand dots — pulse in sequence */}
-          <motion.ul variants={rise} className="mt-14 flex flex-wrap gap-x-6 gap-y-3">
+          <motion.ul variants={rise} className="mt-14 flex flex-wrap justify-center gap-x-6 gap-y-3">
             {subBrands.map((b, i) => (
               <li key={b.slug} className="flex items-center gap-2 text-sm font-medium text-white/60">
                 <motion.span
