@@ -21,7 +21,7 @@ export default function Footer() {
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           {/* Brand col */}
           <div>
-            <Image src="/brand/Reesh-Logo.svg" alt="Reesh Enterprise" width={170} height={40} className="h-10 w-auto" />
+            <Image src="/brand/Reesh-Logo.svg" alt="Reesh Enterprise" width={149} height={40} className="h-10 w-auto" />
             <p className="mt-5 max-w-sm text-[15px] leading-relaxed text-white/60">{site.signature}</p>
             <a
               href={site.whatsapp}

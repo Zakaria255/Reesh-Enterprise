@@ -120,7 +120,7 @@ export default function Navbar() {
           aria-label="Primary"
         >
           <Link href="/" className="relative z-10 flex items-center" aria-label="Reesh Enterprise home">
-            <Image src={logoSrc} alt="Reesh Enterprise" width={162} height={38} priority className="h-9 w-auto" />
+            <Image src={logoSrc} alt="Reesh Enterprise" width={141} height={38} priority className="h-8 w-auto sm:h-9" />
           </Link>
 
           {/* Desktop links */}
