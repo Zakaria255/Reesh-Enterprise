@@ -70,7 +70,7 @@ const jsonLd = {
   telephone: site.contact.phoneRaw,
   email: site.contact.email,
   image: `${site.domain}/opengraph-image`,
-  logo: `${site.domain}/brand/logo-full.svg`,
+  logo: `${site.domain}/brand/Reesh-Logo-dark.svg`,
   address: {
     '@type': 'PostalAddress',
     streetAddress: 'Taleex',

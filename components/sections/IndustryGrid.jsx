@@ -11,6 +11,41 @@ import { industries } from '@/lib/content';
 export default function IndustryGrid({ variant = 'blocks', limit }) {
   const items = limit ? industries.slice(0, limit) : industries;
 
+  if (variant === 'cards') {
+    return (
+      <Reveal stagger className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {items.map((ind) => (
+          <RevealItem key={ind.name}>
+            <article className="group relative flex h-full flex-col overflow-hidden rounded-img bg-ink-soft ring-1 ring-line/60 transition-all duration-med ease-reesh hover:-translate-y-1.5 hover:shadow-card-hover">
+              {/* Top brand rule draws across on hover */}
+              <span
+                aria-hidden
+                className="absolute inset-x-0 top-0 z-[2] h-0.5 origin-left scale-x-0 bg-gradient-brand transition-transform duration-slow ease-reesh group-hover:scale-x-100"
+              />
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <Image
+                  src={ind.image}
+                  alt={ind.name}
+                  fill
+                  sizes="(max-width:640px) 100vw, (max-width:1280px) 33vw, 25vw"
+                  className="object-cover transition-transform duration-slow ease-reesh group-hover:scale-105"
+                />
+                <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(11,22,34,.15) 30%, rgba(11,22,34,.9) 100%)' }} />
+                <div className="absolute bottom-3.5 left-4 right-4 flex items-center gap-2.5">
+                  <span className="flex h-9 w-9 flex-none items-center justify-center rounded-lg bg-white/90 text-reesh-blue backdrop-blur">
+                    <Icon name={ind.icon} className="h-5 w-5" />
+                  </span>
+                  <h3 className="font-display text-lg font-semibold text-white drop-shadow">{ind.name}</h3>
+                </div>
+              </div>
+              <p className="px-4 py-4 text-[13.5px] leading-relaxed text-slate">{ind.services.join(' · ')}</p>
+            </article>
+          </RevealItem>
+        ))}
+      </Reveal>
+    );
+  }
+
   if (variant === 'chips') {
     return (
       <Reveal stagger className="flex flex-wrap gap-3">

@@ -2,11 +2,15 @@
 
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Container from '@/components/ui/Container';
 import Button from '@/components/ui/Button';
 import { images, subBrands } from '@/lib/content';
 import { EASE } from '@/lib/motion';
+
+// WebGL ripple is client-only and lazy — never blocks the hero paint.
+const HeroRipple = dynamic(() => import('@/components/sections/HeroRipple'), { ssr: false });
 
 const container = {
   hidden: {},
@@ -25,7 +29,7 @@ export default function Hero() {
 
   return (
     <section ref={ref} className="relative flex min-h-screen items-center overflow-hidden bg-[#070E1A] text-white bg-grain">
-      {/* Base — growth image */}
+      {/* Base — growth image (also the fallback when WebGL is unavailable) */}
       <motion.div aria-hidden className="absolute inset-0" style={{ scale: imgScale }}>
         <Image
           src={images.heroGrowth}
@@ -36,6 +40,9 @@ export default function Hero() {
           className="object-cover [object-position:center_right]"
         />
       </motion.div>
+
+      {/* Interactive water-ripple layer (above image, below scrims) */}
+      <HeroRipple src={images.heroGrowth} className="absolute inset-0 h-full w-full" />
 
       {/* Even legibility scrim — centered layout, arrow kept as subtle ambiance */}
       <div

@@ -1,4 +1,5 @@
 import Hero from '@/components/sections/Hero';
+import TrustStrip from '@/components/sections/TrustStrip';
 import ReeshFive from '@/components/sections/ReeshFive';
 import StatStrip from '@/components/sections/StatStrip';
 import WhyReesh from '@/components/sections/WhyReesh';
@@ -18,6 +19,9 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+
+      {/* Trust / client logo strip — still in the dark band */}
+      <TrustStrip />
 
       {/* Signature — The Reesh Five expanding columns */}
       <ReeshFive />
@@ -84,8 +88,8 @@ export default function HomePage() {
       {/* Process */}
       <ProcessStepper tone="white" />
 
-      {/* Industries preview — grid pattern */}
-      <Background variant="line" className="py-section-mobile sm:py-section">
+      {/* Industries — curated cards on a patterned bg */}
+      <Background variant="dot" className="py-section-mobile sm:py-section">
         <Container>
           <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
             <SectionHeading
@@ -100,8 +104,13 @@ export default function HomePage() {
             </Reveal>
           </div>
           <div className="mt-12">
-            <IndustryGrid variant="chips" />
+            <IndustryGrid variant="cards" limit={8} />
           </div>
+          <Reveal className="mt-12 flex justify-center">
+            <Button href="/contact" variant="dark" size="lg" arrow>
+              Talk to Our Team
+            </Button>
+          </Reveal>
         </Container>
       </Background>
 

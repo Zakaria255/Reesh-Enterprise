@@ -96,7 +96,7 @@ export default function Navbar() {
   // Header visual state
   const solid = scrolled || dropOpen;
   const headerText = lightPage && !solid ? 'text-ink' : 'text-white';
-  const logoSrc = lightPage && !solid ? '/brand/logo-full.svg' : '/brand/logo-full-white.svg';
+  const logoSrc = lightPage && !solid ? '/brand/Reesh-Logo-dark.svg' : '/brand/Reesh-Logo.svg';
 
   let headerBg = 'bg-transparent border-transparent';
   if (solid) {

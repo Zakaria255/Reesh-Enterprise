@@ -1,0 +1,37 @@
+import { ImageResponse } from 'next/og';
+
+export const runtime = 'edge';
+export const size = { width: 180, height: 180 };
+export const contentType = 'image/png';
+
+// Apple touch icon derived from the Reesh mark (logo-icon.svg).
+export default function AppleIcon() {
+  return new ImageResponse(
+    (
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: 'linear-gradient(135deg, #16242F 0%, #0B1622 100%)',
+        }}
+      >
+        <svg width="120" height="120" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="appLeaf" x1="10" y1="6" x2="40" y2="42" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#66CFEC" />
+              <stop offset="0.5" stopColor="#009FD0" />
+              <stop offset="1" stopColor="#006A8B" />
+            </linearGradient>
+          </defs>
+          <path d="M14 8.5C14 7.67 14.67 7 15.5 7H16.5C17.33 7 18 7.67 18 8.5V39.5C18 40.33 17.33 41 16.5 41H15.5C14.67 41 14 40.33 14 39.5V8.5Z" fill="#FFFFFF" />
+          <path d="M18 7H27C32.52 7 37 11.48 37 17C37 21.64 33.83 25.55 29.53 26.67L36.4 39.02C36.9 39.91 36.26 41 35.24 41H33.02C32.46 41 31.94 40.7 31.66 40.21L25.2 28.6C24.9 28.06 24.33 27.73 23.71 27.73H18V23.73H26.5C30.09 23.73 33 20.82 33 17.23C33 13.64 30.09 10.73 26.5 10.73H18V7Z" fill="#FFFFFF" />
+          <path d="M8 40C8 40 7.2 28.5 14.5 21.2C21.8 13.9 33.3 13.1 33.3 13.1C33.3 13.1 34.1 24.6 26.8 31.9C19.5 39.2 8 40 8 40Z" fill="url(#appLeaf)" />
+        </svg>
+      </div>
+    ),
+    { ...size }
+  );
+}
