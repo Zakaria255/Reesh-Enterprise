@@ -1,9 +1,0 @@
-<svg viewBox="0 0 320 48" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="DALDHIS">
-  <!-- open double-window mark -->
-  <path d="M30 5 L13 9 V39 L30 43 Z" fill="#F7931E"/>
-  <path d="M34 5 L51 9 V39 L34 43 Z" fill="#29ABE2"/>
-  <rect x="30.2" y="5" width="3.6" height="38" fill="#29ABE2"/>
-  <rect x="19" y="14" width="7" height="20" rx="1" fill="#F7931E"/>
-  <rect x="38" y="14" width="7" height="20" rx="1" fill="#29ABE2"/>
-  <text x="66" y="35" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="30" letter-spacing="0.5" fill="#F7931E">DALDHIS</text>
-</svg>
