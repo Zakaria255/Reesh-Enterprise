@@ -1,0 +1,8 @@
+<svg viewBox="0 0 300 48" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dalsom Travel Agency">
+  <!-- 'd' loop with an upward plane tail -->
+  <path d="M39 8 V40" stroke="#1B2A57" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="26" cy="30" r="12" stroke="#1B2A57" stroke-width="7" fill="none"/>
+  <path d="M30 24 L52 14 L40 30 Z" fill="#1B2A57"/>
+  <text x="66" y="30" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="26" fill="#1B2A57">dalsom</text>
+  <text x="66" y="43" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="12" letter-spacing="1" fill="#F7931E">TRAVEL AGENCY</text>
+</svg>
