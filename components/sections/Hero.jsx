@@ -79,7 +79,7 @@ export default function Hero() {
 
           {/* Headline — Sora 800, blue-gradient line 2. Two clean lines at lg
               (nowrap) sized so neither line orphans a word or crowds the arrow. */}
-          <h1 className="mx-auto mt-6 max-w-[min(92vw,1040px)] font-display font-extrabold leading-[1.02] tracking-[-0.02em] text-white [font-size:clamp(40px,6vw,76px)]">
+          <h1 className="mx-auto mt-6 max-w-[min(92vw,1040px)] font-display font-extrabold uppercase leading-[1.05] tracking-[-0.01em] text-white [font-size:clamp(36px,5.4vw,66px)]">
             <motion.span variants={rise} className="block lg:whitespace-nowrap">
               From a simple idea
             </motion.span>
